@@ -1,0 +1,6 @@
+﻿mlflow.db
+mlruns/
+monitoring/reports/
+venv/
+__pycache__/
+*.pyc
