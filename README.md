@@ -150,9 +150,3 @@ python monitoring\monitor.py
 
 ---
 
-## Next Steps
-
-- Containerize the API with Docker for portable deployment
-- Add a CI/CD workflow (GitHub Actions) to automate validation and retraining
-- Deploy the API to a cloud provider for public accessibility
-- Log real API prediction traffic to replace simulated drift data with genuine production data
