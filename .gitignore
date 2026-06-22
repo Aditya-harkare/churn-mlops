@@ -4,3 +4,4 @@ monitoring/reports/
 venv/
 __pycache__/
 *.pyc
+model_store/
