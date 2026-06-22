@@ -1,16 +1,23 @@
+import joblib
+import os
 import pandas as pd
-import mlflow.sklearn
-import mlflow
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field, field_validator
 import uvicorn
-import os
 
-mlflow.set_tracking_uri(f"sqlite:///{os.path.abspath('mlflow.db')}")
+# Load model from exported file instead of MLflow registry.
+# joblib is Python's standard serialization library for ML objects.
+# This removes the dependency on MLflow at serving time — the container
+# only needs the model file itself, not the entire tracking infrastructure.
+# MODEL_PATH checks an environment variable first, falls back to default.
+# This lets us override the path easily in different environments
+# (local, Docker, cloud) without changing code.
 
-print("Loading model from MLflow registry...")
+MODEL_PATH = os.getenv("MODEL_PATH", "model_store/churn_model.pkl")
+
+print(f"Loading model from {MODEL_PATH}...")
 try:
-    model = mlflow.sklearn.load_model("models:/RandomForest/Production")
+    model = joblib.load(MODEL_PATH)
     print("Model loaded successfully")
 except Exception as e:
     print(f"Failed to load model: {e}")
@@ -158,4 +165,4 @@ def predict(customer: CustomerData):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
