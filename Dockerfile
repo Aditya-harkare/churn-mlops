@@ -10,7 +10,7 @@
 #
 # Think of this as choosing which "blank canvas" to start with.
 
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 # ─────────────────────────────────────────
 # Working Directory
